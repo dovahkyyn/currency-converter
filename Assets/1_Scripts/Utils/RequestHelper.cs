@@ -25,8 +25,8 @@ public class RequestHelper : MonoBehaviour{
 		StartCoroutine(SendRequest(url, callback));
 	}
 
-	public void GetConversionRate(string fromTo, Action<bool, string> callback = null) {
-		string url = $"{m_rootUrl}convert?apiKey={m_apiKey}&q={fromTo}&compact=ultra";
+	public void GetConversionRate(string fromTo, string date, Action<bool, string> callback = null) {
+		string url = $"{m_rootUrl}convert?apiKey={m_apiKey}&q={fromTo}&date={date}&compact=ultra";
 		StartCoroutine(SendRequest(url, callback));
 	}
 
@@ -35,10 +35,8 @@ public class RequestHelper : MonoBehaviour{
 		yield return request.SendWebRequest();
 		
 		if (request.isNetworkError) {
-			// Debug.Log("Error While Sending: " + request.error);
 			callback?.Invoke(false, request.error);
 		} else {
-			// Debug.Log("Received: " + request.downloadHandler.text);
 			callback?.Invoke(true, request.downloadHandler.text);
 		}
 		
